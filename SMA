@@ -1,0 +1,30 @@
+
+
+import pandas as pd
+import csv
+import matplotlib.pyplot as plt
+#Taking data for 53 days
+days=['1/3/2018','2/3/2018','3/3/2018','4/3/2018','5/3/2018','6/3/2018','7/3/2018','8/3/2018','9/3/2018','10/3/2018','11/3/2018','12/3/2018','13/3/2018','14/3/2018','15/3/2018','16/3/2018','17/3/2018','18/3/2018','19/3/2018','20/3/2018','21/3/2018','22/3/2018','23/3/2018','24/3/2018','25/3/2018','26/3/2018','27/3/2018','28/3/2018','29/3/2018','30/3/2018','1/4/2018','2/4/2018','3/4/2018','4/4/2018','5/4/2018','6/4/2018','7/4/2018','8/4/2018','9/4/2018','10/4/2018','11/4/2018','12/4/2018','13/4/2018','14/4/2018','15/4/2018','16/4/2018','17/4/2018','18/4/2018','19/4/2018','20/4/2018','21/4/2018','22/4/2018','23/4/2018']
+closing_Price=[20,25,30,35,40,45,40,45,50,60,65,70,75,65,60,63,61,70,72,75,80,85,90,85,80,77,74,70,67,65,63,60,63,66,67,70,72,75,78,82,85,88,90,92,95,97,100,90,103,105,107,109,111]
+print(len(days),len(closing_Price))
+df_Input=pd.DataFrame()
+#Input dataframe for storing data
+df_Input['date']=days
+df_Input['closing_Price']=closing_Price
+
+#calculating Sma for every 6 days
+df_Sma=df_Input.closing_Price.rolling(window=6).mean()
+
+#storing Sma and input data
+df_Output=pd.DataFrame()
+df_Output['Date']=days
+df_Output['closing_Price']=closing_Price
+df_Output['SMA']=list(df_Sma)
+df_Output['SMA'].fillna(0,inplace=True)
+df_Output['SMA']=list(map(int,df_Output['SMA']))
+
+#Ploting the graph for Sma and closing Price to demonstrate crossover strategy
+df_Output[['closing_Price','SMA']].plot(grid=True,figsize=(5,5))
+plt.xlabel("Days")
+plt.ylabel("closing_Price and SMA")
+
